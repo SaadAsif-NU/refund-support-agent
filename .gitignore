@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.pytest_cache/
+.DS_Store
+*.egg-info/
+
+# Durable refund ledger is runtime/transactional state, not source.
+backend/data/refund_ledger.json
+backend/data/refund_ledger.json.tmp
