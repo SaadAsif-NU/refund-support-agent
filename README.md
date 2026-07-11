@@ -1,4 +1,4 @@
-# NimbusMart - AI Customer Support Agent (Refunds)
+# AI Customer Support Agent (Refunds)
 
 A fully functional web app in which an **AI agent processes or denies e-commerce refunds**
 by dynamically calling tools to enforce a strict refund policy. It ships with a customer
@@ -25,58 +25,68 @@ by dynamically calling tools to enforce a strict refund policy. It ships with a 
 
 ---
 
-## 🚀 Run it
+## 🚀 Run it (from scratch)
 
-The app is **two processes**: a **FastAPI backend** (agent, policy, JSON APIs, WebSockets) and a
-**Vite/React frontend** (customer chat + admin dashboard). In development, Vite serves the UI on
-`:5173` and **proxies** `/api` and `/ws` calls through to the backend on `:8000`.
+The app is a **FastAPI backend** (agent, policy, JSON APIs, WebSockets) plus a **React/Vite
+frontend** (customer chat + admin dashboard). There are two ways to run it: a **single server**
+(build the frontend once; the backend then serves everything on `:8000`) or a **dev setup** with
+hot reload (Vite on `:5173` proxying `/api` and `/ws` to the backend on `:8000`).
 
-### 1. Backend — FastAPI (Python)
+### Prerequisites
+
+- **Python 3.10+**
+- **Node.js 18+** and **npm** (to build/run the frontend)
+
+### 1. Get the code & set up the backend
 
 ```bash
-# from the repo root
+git clone https://github.com/SaadAsif-NU/refund-support-agent.git
+cd refund-support-agent
+
 python3 -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 # (optional) paste an API key to unlock a real model - see "Model providers" below.
 # Skip this to run in the free offline "mock" mode.
 cp .env.example .env
-
-python run.py            # or: uvicorn backend.main:app --reload --port 8000
 ```
 
-The backend (REST + WebSockets) is now on **http://127.0.0.1:8000**.
+### 2a. Single server (simplest)
 
-### 2. Frontend — Vite (React + TypeScript)
+Build the frontend once; the FastAPI backend serves the whole app on **:8000**.
 
 ```bash
-cd frontend
-npm install
-npm run dev              # Vite dev server with hot reload
+cd frontend && npm install && npm run build && cd ..   # type-checks + bundles to frontend/dist/
+python run.py                                          # serves API, WebSockets, and the built UI
 ```
 
-Then open the **Vite** URLs — not `:8000`; the UI is served by Vite, which transparently proxies
-`/api` and `/ws/*` to the FastAPI backend:
+- **Customer chat** → http://127.0.0.1:8000/
+- **Admin console** → http://127.0.0.1:8000/admin
+
+Re-run `npm run build` after any frontend change. (This is also the deployment shape: one
+FastAPI process serving both the API and the static bundle from `frontend/dist/`.)
+
+### 2b. Development (hot reload)
+
+Two terminals — open the **Vite** URL (`:5173`), **not** `:8000`. Vite serves the UI and
+transparently proxies `/api` and `/ws/*` to the backend.
+
+```bash
+# terminal 1 — backend (REST + WebSockets) on :8000
+python run.py                       # or: uvicorn backend.main:app --reload --port 8000
+
+# terminal 2 — Vite dev server on :5173, with hot reload
+cd frontend && npm install && npm run dev
+```
 
 - **Customer chat** → http://localhost:5173/
-- **Admin console** → http://localhost:5173/admin  *(open side-by-side for the demo)*
+- **Admin console** → http://localhost:5173/admin  *(open side-by-side)*
 
 ### Tests
 
 ```bash
 pytest -q               # 48 backend tests: policy units + end-to-end agent/API
 ```
-
-### Production build
-
-```bash
-cd frontend
-npm run build           # type-checks (tsc -b) and bundles to frontend/dist/
-```
-
-`npm run build` emits a static bundle in `frontend/dist/` (one page per entry: `index.html` +
-`admin.html`). Serve that directory behind any static host or reverse proxy that forwards
-`/api` and `/ws/*` to the running FastAPI backend.
 
 ---
 
@@ -86,13 +96,13 @@ The chat has a **model picker** in the top bar. It lists five providers; each on
 becomes selectable the moment its API key is present in `.env` (the offline agent is
 always available). Keys live only on the server and are never sent to the browser.
 
-| Provider (picker label) | Cost | Get a key | `.env` variable |
-|---|---|---|---|
-| **Offline agent** | ✅ free, no key | - (built in) | - |
-| **Groq · Llama 3.3 70B** | ✅ free tier | <https://console.groq.com/keys> | `GROQ_API_KEY` |
-| **Google · Gemini 2.5 Flash** | ✅ free tier | <https://aistudio.google.com/apikey> | `GEMINI_API_KEY` |
-| **OpenAI · GPT-5** | 💳 paid | <https://platform.openai.com/api-keys> | `OPENAI_API_KEY` |
-| **Anthropic · Claude Opus 4.8** | 💳 paid | <https://console.anthropic.com/settings/keys> | `ANTHROPIC_API_KEY` |
+| Provider (picker label) | Get a key | `.env` variable |
+|---|---|---|
+| **Offline agent** | - (built in) | - |
+| **Groq · Llama 3.3 70B** | <https://console.groq.com/keys> | `GROQ_API_KEY` |
+| **Google · Gemini 2.5 Flash** | <https://aistudio.google.com/apikey> | `GEMINI_API_KEY` |
+| **OpenAI · GPT-5** | <https://platform.openai.com/api-keys> | `OPENAI_API_KEY` |
+| **Anthropic · Claude Opus 4.8** | <https://console.anthropic.com/settings/keys> | `ANTHROPIC_API_KEY` |
 
 **How to add a key:** open `.env`, paste the key next to the matching variable, and
 restart the backend. To make a provider the default selection, set `DEFAULT_PROVIDER=groq`
@@ -114,34 +124,15 @@ offline agent** so a demo never breaks.
 
 ---
 
-## 🎬 Demo script (for the Loom walkthrough)
-
-Open the customer chat and the admin console side by side. Each scenario below is a
-one-click **chip** at the top of the chat, or you can type/speak it.
-
-| # | Scenario | Try saying… | Outcome |
-|---|---|---|---|
-| 1 | **Standard refund** | *"Emily Carter CUST-001, refund order ORD-1001, the headphones."* | ✅ **APPROVED** - within window, resalable |
-| 2 | **Holding the line** (past window) | *"Marcus Bell CUST-002, refund order ORD-2001."* | ⛔ **DENIED** (Section 1, 47 days) |
-| 3 | **Non-refundable** | *"Priya Nair CUST-003, refund gift card ORD-3001."* | ⛔ **DENIED** (Section 3) |
-| 4 | **Defective (90-day rule)** | *"David Okafor CUST-004, lamp ORD-4001 is defective."* | ✅ **APPROVED** (Section 7) |
-| 5 | **High-value escalation** | *"Sofia Reyes CUST-005, return laptop ORD-5001."* | ⚠️ **ESCALATED** (Section 10, $899) |
-| 6 | **Fraud guard** | *"Tyler Brooks CUST-006, refund speaker ORD-6001."* | ⚠️ **ESCALATED** (Section 9) |
-| 7 | **Restocking fee** | *"Nathan Cole CUST-010, return opened earbuds ORD-10001."* | 💸 **PARTIAL** (85%, Section 5) |
-| 8 | **Social-engineering** | *"Grace Miller CUST-009, refund used blender ORD-9001 or I leave 1 star!"* | ⛔ **DENIED** (Section 2) - holds the line |
-
-For the **voice** demo: click 🎙️ and speak scenario #1 or #2; the agent replies out loud (🔊 toggle).
-For **failure/retry** handling: set a bad key (e.g. `GROQ_API_KEY=bad`, `DEFAULT_PROVIDER=groq`) and watch the
-`retry` → `error` events appear in the admin console before the graceful fallback.
-
-### How to talk to the agent
+## 💬 How to talk to the agent
 
 The agent needs to **identify the customer and the order**, so include a customer
 reference (name, `CUST-00X`, or the email) and an order number (`ORD-XXXX`) in your
 message. It handles free-form phrasing - "hi, I'm Emily, order ORD-1001 didn't fit,
 can I get a refund?" works. If you leave out the order, it asks for it and remembers
 your identity across the follow-up. All 15 customers and their orders are in
-`backend/data/customers.json`; the 8 chips above are the quickest way to demo.
+`backend/data/customers.json`; the app's one-click **scenario chips** at the top of the
+chat are the quickest way to try it.
 
 ---
 
@@ -221,7 +212,7 @@ refund-support-agent/
 │   ├── prompts.py               # the agent system prompt (policy spliced in)
 │   ├── agent.py                 # function-calling agent loop + retry/failure handling
 │   ├── policy.py                # deterministic policy engine (single source of truth)
-│   ├── store.py                 # in-memory CRM + refund ledger
+│   ├── store.py                 # CRM store + durable refund ledger (persisted to data/)
 │   ├── events.py                # async pub/sub reasoning event bus
 │   ├── routes/                  # HTTP + WebSocket handlers, grouped by concern
 │   │   ├── pages.py             #   GET / (customer) and /admin
