@@ -1,0 +1,410 @@
+{
+  "_note": "Dates are stored as day-offsets from 'today' and materialized at load time, so every demo scenario stays valid whenever the app is run. See backend/store.py.",
+  "customers": [
+    {
+      "id": "CUST-001",
+      "name": "Emily Carter",
+      "email": "emily.carter@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 420,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-1001",
+          "item": "Aurora Wireless Headphones",
+          "category": "electronics",
+          "amount": 149.99,
+          "shipping_fee": 6.99,
+          "currency": "USD",
+          "order_date_days_ago": 12,
+          "delivered_days_ago": 8,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-002",
+      "name": "Marcus Bell",
+      "email": "marcus.bell@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 300,
+      "refunds_last_12_months": 1,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-2001",
+          "item": "Trailhead Running Jacket",
+          "category": "apparel",
+          "amount": 89.0,
+          "shipping_fee": 5.0,
+          "currency": "USD",
+          "order_date_days_ago": 55,
+          "delivered_days_ago": 47,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-003",
+      "name": "Priya Nair",
+      "email": "priya.nair@example.com",
+      "tier": "premium",
+      "member_since_days_ago": 610,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-3001",
+          "item": "NimbusMart Gift Card $100",
+          "category": "gift_card",
+          "amount": 100.0,
+          "shipping_fee": 0.0,
+          "currency": "USD",
+          "order_date_days_ago": 10,
+          "delivered_days_ago": 9,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": true,
+          "digital": true,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-004",
+      "name": "David Okafor",
+      "email": "david.okafor@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 200,
+      "refunds_last_12_months": 1,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-4001",
+          "item": "Lumen Smart Desk Lamp",
+          "category": "electronics",
+          "amount": 74.5,
+          "shipping_fee": 4.99,
+          "currency": "USD",
+          "order_date_days_ago": 66,
+          "delivered_days_ago": 60,
+          "status": "delivered",
+          "condition": "defective",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-005",
+      "name": "Sofia Reyes",
+      "email": "sofia.reyes@example.com",
+      "tier": "vip",
+      "member_since_days_ago": 900,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-5001",
+          "item": "Vertex Pro 14 Laptop",
+          "category": "electronics",
+          "amount": 899.0,
+          "shipping_fee": 0.0,
+          "currency": "USD",
+          "order_date_days_ago": 7,
+          "delivered_days_ago": 5,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-006",
+      "name": "Tyler Brooks",
+      "email": "tyler.brooks@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 150,
+      "refunds_last_12_months": 4,
+      "flagged_for_review": true,
+      "orders": [
+        {
+          "id": "ORD-6001",
+          "item": "Cobalt Bluetooth Speaker",
+          "category": "electronics",
+          "amount": 59.99,
+          "shipping_fee": 4.99,
+          "currency": "USD",
+          "order_date_days_ago": 9,
+          "delivered_days_ago": 6,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-007",
+      "name": "Hannah Lin",
+      "email": "hannah.lin@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 275,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-7001",
+          "item": "Silk Comfort Lingerie Set",
+          "category": "intimate_apparel",
+          "amount": 45.0,
+          "shipping_fee": 4.5,
+          "currency": "USD",
+          "order_date_days_ago": 8,
+          "delivered_days_ago": 5,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": true,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-008",
+      "name": "Omar Haddad",
+      "email": "omar.haddad@example.com",
+      "tier": "premium",
+      "member_since_days_ago": 500,
+      "refunds_last_12_months": 1,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-8001",
+          "item": "Skyline Photo Editor (Digital License)",
+          "category": "digital",
+          "amount": 39.99,
+          "shipping_fee": 0.0,
+          "currency": "USD",
+          "order_date_days_ago": 4,
+          "delivered_days_ago": 4,
+          "status": "delivered",
+          "condition": "used",
+          "final_sale": false,
+          "digital": true,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-009",
+      "name": "Grace Miller",
+      "email": "grace.miller@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 330,
+      "refunds_last_12_months": 2,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-9001",
+          "item": "PureBlend Countertop Blender",
+          "category": "home",
+          "amount": 62.0,
+          "shipping_fee": 7.5,
+          "currency": "USD",
+          "order_date_days_ago": 14,
+          "delivered_days_ago": 10,
+          "status": "delivered",
+          "condition": "used",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-010",
+      "name": "Nathan Cole",
+      "email": "nathan.cole@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 180,
+      "refunds_last_12_months": 1,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-10001",
+          "item": "Pulse Noise-Cancelling Earbuds",
+          "category": "electronics",
+          "amount": 129.0,
+          "shipping_fee": 4.99,
+          "currency": "USD",
+          "order_date_days_ago": 15,
+          "delivered_days_ago": 11,
+          "status": "delivered",
+          "condition": "opened",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-011",
+      "name": "Isabella Rossi",
+      "email": "isabella.rossi@example.com",
+      "tier": "premium",
+      "member_since_days_ago": 450,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-11001",
+          "item": "Meridian Office Chair",
+          "category": "home",
+          "amount": 210.0,
+          "shipping_fee": 12.0,
+          "currency": "USD",
+          "order_date_days_ago": 3,
+          "delivered_days_ago": null,
+          "status": "shipped",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-012",
+      "name": "James Walker",
+      "email": "james.walker@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 260,
+      "refunds_last_12_months": 2,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-12001",
+          "item": "Terra Hiking Backpack",
+          "category": "apparel",
+          "amount": 118.0,
+          "shipping_fee": 6.0,
+          "currency": "USD",
+          "order_date_days_ago": 20,
+          "delivered_days_ago": 16,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": true
+        }
+      ]
+    },
+    {
+      "id": "CUST-013",
+      "name": "Aisha Khan",
+      "email": "aisha.khan@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 95,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-13001",
+          "item": "Artisan Chocolate Gift Box",
+          "category": "perishable",
+          "amount": 34.0,
+          "shipping_fee": 5.99,
+          "currency": "USD",
+          "order_date_days_ago": 6,
+          "delivered_days_ago": 3,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-014",
+      "name": "Liam Foster",
+      "email": "liam.foster@example.com",
+      "tier": "premium",
+      "member_since_days_ago": 720,
+      "refunds_last_12_months": 1,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-14001",
+          "item": "Crystalline Glass Dinnerware Set",
+          "category": "home",
+          "amount": 96.0,
+          "shipping_fee": 9.0,
+          "currency": "USD",
+          "order_date_days_ago": 5,
+          "delivered_days_ago": 3,
+          "status": "delivered",
+          "condition": "damaged",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    },
+    {
+      "id": "CUST-015",
+      "name": "Chloe Bennett",
+      "email": "chloe.bennett@example.com",
+      "tier": "standard",
+      "member_since_days_ago": 140,
+      "refunds_last_12_months": 0,
+      "flagged_for_review": false,
+      "orders": [
+        {
+          "id": "ORD-15001",
+          "item": "Sunbeam Cotton Bath Towels (Set of 4)",
+          "category": "home",
+          "amount": 48.0,
+          "shipping_fee": 5.0,
+          "currency": "USD",
+          "order_date_days_ago": 18,
+          "delivered_days_ago": 14,
+          "status": "delivered",
+          "condition": "opened",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        },
+        {
+          "id": "ORD-15002",
+          "item": "Halo LED Ring Light",
+          "category": "electronics",
+          "amount": 39.0,
+          "shipping_fee": 4.0,
+          "currency": "USD",
+          "order_date_days_ago": 40,
+          "delivered_days_ago": 36,
+          "status": "delivered",
+          "condition": "unused",
+          "final_sale": false,
+          "digital": false,
+          "already_refunded": false
+        }
+      ]
+    }
+  ]
+}
