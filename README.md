@@ -85,7 +85,7 @@ cd frontend && npm install && npm run dev
 ### Tests
 
 ```bash
-pytest -q               # 48 backend tests: policy units + end-to-end agent/API
+pytest -q               # 165 backend tests: policy units + end-to-end agent/API
 ```
 
 ---
